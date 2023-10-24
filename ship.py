@@ -12,13 +12,16 @@ class Ship:
         self.rect = self.image.get_rect()
         
         self.rect.midbottom = self.screen_rect.midbottom
-        # Movement flag starts with a ship that is not moving
+        # Movement flags starts with a ship that is not moving
         self.moving_right = False
+        self.moving_left = False
         
     def update(self):
         """Update the ships position based on the movement flag."""
         if self.moving_right:
             self.rect.x += 1
+        if self.moving_left:
+            self.rect.x -= 1
     
         
     def blitme(self):
