@@ -3,6 +3,7 @@ import pygame
 
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -12,6 +13,7 @@ class AlienInvasion:
         pygame.init()
         # Settings class instance used to dynamically change the self.screen attribute
         self.settings = Settings()
+        self.bullets = pygame.sprite.Group()
         
         self.screen = pygame.display.set_mode((self.settings.screen_height, self.settings.screen_width))
         pygame.display.set_caption("Hashaam's Game")
@@ -26,6 +28,7 @@ class AlienInvasion:
             #Helper function call (It can only be used within the class)
             self._check_events()
             self.ship.update()
+            self.bullets.update()
             self._update_screen()
             self.clock.tick(60)
             
