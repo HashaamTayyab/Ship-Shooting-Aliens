@@ -4,6 +4,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -13,12 +14,16 @@ class AlienInvasion:
         pygame.init()
         # Settings class instance used to dynamically change the self.screen attribute
         self.settings = Settings()
-        self.bullets = pygame.sprite.Group()
-        
         self.screen = pygame.display.set_mode((self.settings.screen_height, self.settings.screen_width))
         pygame.display.set_caption("Hashaam's Game")
+        
         #Creating the instance of the Ship class from ship.py
         self.ship = Ship(self)
+        self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+        
+        self._create_fleet()
+        
         self.clock = pygame.time.Clock()
         
         
@@ -91,8 +96,16 @@ class AlienInvasion:
             bullet.draw_bullet()
         #Draws the ship on the screen
         self.ship.blitme()
+        self.aliens.draw(self.screen)
         # Make the most recently drawn screen visible.
         pygame.display.flip()
+        
+        
+    def _create_fleet(self):
+        """Create the fleet of aliens."""
+        # Make an alien.
+        alien = Alien(self)
+        self.aliens.add(alien)
         
         
 if __name__ == '__main__':
