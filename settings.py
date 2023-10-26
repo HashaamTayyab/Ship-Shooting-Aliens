@@ -1,6 +1,7 @@
 class Settings:
     """A class to store all the settings for Hashaam's game"""
     def __init__(self):
+        """Initialize the game static settings."""
         # Game window screen size
         self.screen_width = 800
         self.screen_height = 800
@@ -24,3 +25,7 @@ class Settings:
         self.fleet_drop_speed = 10
         # Fleet direction of 1 represents right; -1 represents left.
         self.fleet_direction = 1
+        
+        # How quickly the game speeds up.
+        self.speedup_scale = 1.1
+        self.initialize_dynamic_settings()
