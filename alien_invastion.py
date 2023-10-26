@@ -108,11 +108,20 @@ class AlienInvasion:
         # If so, get rid of the bullet and the alien.
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, False, True)
         
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
+            self.sb.check_high_score()
+            
         if not self.aliens:
             #Destroy existing bullets and create new fleet.
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+            #Increase level
+            self.stats.level += 1
+            self.sb.prep_level()
             
     def _update_aliens(self):
         """Check if the fleet is at an edge, then update position."""
@@ -187,8 +196,9 @@ class AlienInvasion:
     def _ship_hit(self):
         """Respond to the ship being hit by the alien."""
         if self.stats.ships_left > 0:
-            #Decrement the ships left when ship is hit.
+            #Decrement the ships left when ship is hit and update scoreboard.
             self.stats.ships_left -=1
+            self.sb.prep_ships()
             #Get rid of the bullets and aliens
             self.bullets.empty()
             self.aliens.empty()
@@ -215,8 +225,11 @@ class AlienInvasion:
         if button_clicked and not self.game_active:
             # Reset the game settings.
             self.settings.initialize_dynamic_settings()
-            # Reset stats
+            # Reset the game stats
             self.stats.reset_stats()
+            self.sb.prep_score()
+            self.sb.prep_level()
+            self.sb.prep_ships()
             self.game_active = True
             
             # Get rid of any remaining aliens or bullets
