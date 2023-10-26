@@ -8,6 +8,7 @@ from bullet import Bullet
 from alien import Alien
 from game_stats import GameStats
 from button import Button
+from scoreboard import Scoreboard
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -21,6 +22,9 @@ class AlienInvasion:
         
         # Creating an instance of game stats class.
         self.stats = GameStats(self)
+        
+        #Creating a scoreboard
+        self.sb = Scoreboard(self)
         
         #Creating the instance of the Ship class from ship.py
         self.ship = Ship(self)
@@ -170,6 +174,9 @@ class AlienInvasion:
         #Draws the ship on the screen
         self.ship.blitme()
         self.aliens.draw(self.screen)
+        
+        # Draw the score information on the screen.
+        self.sb.show_score()
         # Draw the play button if game is not active.
         if not self.game_active:
             self.play_button.draw_button()
