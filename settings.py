@@ -8,8 +8,9 @@ class Settings:
         # Screen background color
         self.bg_color = (230, 230, 230)
         
-        # Ship speed settings
+        # Ship settings
         self.ship_speed = 7
+        self.ship_limit = 3
         
         # Bullet settings
         self.bullet_speed = 4.0

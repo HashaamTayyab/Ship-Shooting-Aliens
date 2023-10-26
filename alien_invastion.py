@@ -1,10 +1,12 @@
 import sys
 import pygame
+from time import sleep
 
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from game_stats import GameStats
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -15,6 +17,9 @@ class AlienInvasion:
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_height, self.settings.screen_width))
         pygame.display.set_caption("Hashaam's Game")
+        
+        # Creating an instance of game stats class.
+        self.stats = GameStats(self)
         
         #Creating the instance of the Ship class from ship.py
         self.ship = Ship(self)
@@ -99,7 +104,7 @@ class AlienInvasion:
         
         #Look for alien ship collision.
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            print("Ship hit!!!")
+            self._ship_hit()
         
     def _create_fleet(self):
         """Create the fleet of aliens."""
@@ -151,6 +156,18 @@ class AlienInvasion:
         self.aliens.draw(self.screen)
         # Make the most recently drawn screen visible.
         pygame.display.flip()
+        
+    def _ship_hit(self):
+        """Respond to the ship being hit by the alien."""
+        self.stats.ships_left -=1
+        #Get rid of the bullets and aliens
+        self.bullets.empty()
+        self.aliens.empty()
+        # Recreate the alien fleet and spawn ship at the center.
+        self._create_fleet()
+        self.ship.center_ship()
+        # Pauses the game to detect the collision has happened.
+        sleep(0.5)
         
         
 if __name__ == '__main__':
